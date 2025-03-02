@@ -1,0 +1,51 @@
+class ATM():
+    def __init__(self, money):
+        self.money = money
+        self.condition = "ATM_WAIT"
+        self.pan = ""
+        self.attempt = 0
+        
+    def set_pan(self, setter):
+        if len(self.pan) > 4:
+            self.pan += setter
+            self.condition = "ATM_SMALL_LEN_PAN"
+        elif len(self.pan) == 4:
+            self.condition = "ATM_GOOD_LEN_PAN"
+        return get_condition()
+        
+    def check_pan(self, card_pan, attempt):
+        if attempt != 3:
+            if card_pan == pan:
+                self.condition = "ATM_GOOD_ATTEMPT"
+            else:
+                self.condition = "ATM_BAD_ATTEMPT"
+        else:
+            self.condition = "ATM_BLOCK_CARD"
+        return get_condition()
+
+    def get_money(self, card_money, get_money):
+        if get_money > self.money:
+            self.condition = "ATM_NO_MONEY"
+        else:
+            if get_money > card_money:
+                self.condition = "ATM_CARD_NO_MONEY"
+            else:
+                if get_money % 100 != 0:
+                    self.condition = "ATM_BAD_SUM"
+                else:
+                    self.condition = "ATM_GOOD_SUM"
+        return get_condition()
+
+    def set_money(self, set_money):
+        if set_money % 100 != 0:
+            self.condition = "ATM_NO_SET"
+        else:
+            if set_money >= 1000000:
+                self.condition = "ATM_NO_SUM"
+            else:
+                self.condition = "ATW_GOOD_SET"
+        return get_condition()
+
+    def get_condition(self):
+        return self.condition
+        
