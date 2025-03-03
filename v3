@@ -2,12 +2,13 @@ class ATM():
     def __init__(self, money, card = None):
         self.money = money
         self.condition = "ATM_WAIT"
-        self.card = card
+        set_card(card)
         
 
     def set_card(self, card):
-        self.card = card
-        self.condition = "ATM_CHECK_PAN"
+        if card != None:
+            self.card = card
+            self.condition = "ATM_CHECK_PAN"
         
     def check_pan(self, attempt, data):
         if attempt != 3:
