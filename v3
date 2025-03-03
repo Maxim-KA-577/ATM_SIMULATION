@@ -1,0 +1,89 @@
+class ATM():
+    def __init__(self, money, card = None):
+        self.money = money
+        self.condition = "ATM_WAIT"
+        self.card = card
+        
+
+    def set_card(self, card):
+        self.card = card
+        self.condition = "ATM_CHECK_PAN"
+        
+    def check_pan(self, attempt, data):
+        if attempt != 3:
+            if card.card_pan == data:
+                self.condition = "ATM_GOOD_ATTEMPT"
+            else:
+                self.condition = "ATM_BAD_ATTEMPT"
+        else:
+            self.condition = "ATM_BLOCK_CARD"
+        return self.condition
+
+    def add_money_to_ATM(self, money):
+        if money > self.money:
+            self.condition = "ATM_NO_MONEY"
+        else:
+            if money > card.money:
+                self.condition = "ATM_CARD_NO_MONEY"
+            else:
+                if money % 100 != 0:
+                    self.condition = "ATM_BAD_SUM"
+                else:
+                    self.condition = "ATM_GOOD_SUM"
+                    self.money += money
+        return self.condition
+
+    def remove_money_from_ATM(self, money):
+        if money % 100 != 0:
+            self.condition = "ATM_NO_SET"
+        else:
+            if money >= 1000000:
+                self.condition = "ATM_NO_SUM"
+            else:
+                self.condition = "ATW_GOOD_SET"
+                self.money -= money
+        return self.condition
+
+    def remvoe_money_to_card(self, money):
+        self.condition = remove_money_from_ATM(money)
+        if self.condition == "ATW_GOOD_SET":
+            self.card.money -= money
+            self.condition = "ATM_CARD_GOOD" #
+        return self.condition()
+
+    def remove_money_from_card(self, money):
+        #по примеру выше
+        pass 
+
+    def check_balans(self, card_money):
+        self.condition = "ATM_CHECK_BAlANS"
+
+    def get_condition(self):
+        return self.condition
+
+class Card():
+    def __init__(self, money, pan):
+        self.money = money
+        self.card_pan = pan
+
+
+
+card = Card(1000, "1234")
+atm = ATM(100000, card)
+
+while True: ###
+    if atm.get_condition() == "ATM_WAIT":
+        if input("вставить карту") == "+":
+            atm.set_card(card)
+    elif atm.get_condition() == "ATM_CHECK_PAN":
+        attemps = 0
+        while attemps < 3:
+            condition = atm.check_pan(attemps, input("Введите пан"))
+            if condition == "ATM_GOOD_ATTEMPT":
+                print("good")
+            elif condition == "ATM_BAD_ATTEMPT":
+                print("bad")
+                attemps+=1
+            else:
+                print("card_blocked")
+                break
