@@ -1,15 +1,12 @@
-from tkinter import *
-
 class ATM():
-    def __init__(self, money):
+    def __init__(self, money, card = None):
         self.money = money
         self.condition = "ATM_WAIT"
+        self.card = card
         
-    def set_card(self, card_draw):
-        self.condition = "ATM_WAIT_WORK"
-        card_draw.delete()
-        #card = canvas.create_rectangle(60, 140, 1040, 40, fill="green")
-        print(card_draw)
+    def set_card(self, card):
+        if card != None:
+            self.condition = "ATM_CHECK_PAN"
         return self.condition
         
     def check_pan(self, attempt, data):
@@ -72,28 +69,3 @@ class Card():
         self.card_pan = card_pan
         self.card_valid_period = card_valid_period
         self.card_number = card_number
-
-
-
-"""
-card = Card(1000, "1234")
-atm = ATM(100000, card)
-
-while True: 
-    if atm.get_condition() == "ATM_WAIT":
-        if input("вставить карту") == "+":
-            atm.set_card(card)
-    elif atm.get_condition() == "ATM_CHECK_PAN":
-        attemps = 0
-        while attemps != 3:
-            condition = atm.check_pan(attemps, input("Введите пан"))
-            if condition == "ATM_GOOD_ATTEMPT":
-                print("good")
-                break
-            elif condition == "ATM_BAD_ATTEMPT":
-                print("bad")
-                attemps+=1
-            if attemps == 3:
-                print("block")
-                break
-"""
