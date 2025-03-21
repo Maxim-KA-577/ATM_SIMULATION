@@ -6,14 +6,21 @@ import classes
 def validate_input(char):
     return char.isdigit()
 
-def save_setting(root, pan, money, valid_period, number):
+def save_setting(root  #""", pan, money, valid_period, number"""
+                 ):   
+    """
     card_pan = pan.get()
     card_money = money.get()
     card_valid_period = valid_period.get()
     card_number = number.get()
+    """
+    card_pan = 1111
+    card_money = 1000
+    card_valid_period = 1111
+    card_number = 1111111111111111
     if len(str(card_pan)) != 4 or len(str(card_number)) != 16 or len(str(card_valid_period)) != 4:
         error_label = tk.Label(root, text = "Данные введены не правильно", font=("Arial", 20))
-        error_label.place(x=10,y=250)
+        error_label.place(x=10,y=250)   
 
     else:
         if int(card_valid_period) // 100 > 12 or int(card_valid_period) // 100 < 1:
@@ -26,7 +33,6 @@ def save_setting(root, pan, money, valid_period, number):
             create_window(card)
 
 def create_window(card_for_atm):
-    atm = classes.ATM(1000000,card_for_atm)
     window = Tk()
     window.title("ATM")
     window.minsize(1100, 500)
@@ -38,7 +44,7 @@ def create_window(card_for_atm):
     screen = canvas.create_rectangle(50, 10, 730, 430, fill="black")
     card_draw = canvas.create_rectangle(860, 140, 1040, 430, fill="green")
     
-    btn_working = ttk.Button(text = "вставить кату", command = lambda: refresh(card_for_atm, atm, card_draw, canvas, btn_working, text, window))
+    btn_working = ttk.Button(text = "вставить кату", command = lambda: (refresh(atm, card_for_atm, card_draw, canvas, btn_working, text, window), atm.set_card(card_for_atm)))
     btn_working.place(x = 910, y = 440)
 
 def start_programm():    
@@ -46,8 +52,9 @@ def start_programm():
     window.title("card setting")
     window.minsize(600, 400)
     window.maxsize(600, 400)
-
-    validate = window.register(validate_input)
+    """
+    validate = window.register(v alidate_input)
+    
     pan_label = tk.Label(window, text = "введите пинкод(4 цифры без пробелов)", font=("Arial", 10))
     pan_var = tk.StringVar()
     pan = tk.Entry(window, validate = "key", validatecommand = (validate, "%S"))
@@ -69,44 +76,23 @@ def start_programm():
     number.place(x = 10, y = 35)
     money_label.place(x = 10, y = 135)
     money.place(x = 10, y = 155)
-
-    save = tk.Button(window, text = "закончить настройку", command = lambda: save_setting(window, pan, money, valid_period, number))
+    """
+    save = tk.Button(window, text = "закончить настройку", command = lambda: save_setting(window #""", pan, money, valid_period,
+                                                                                          ))
     save.place(x = 10,y = 200)
 
-def refresh(card_for_atm, atm, card_draw, canvas, btn_working, text, window):
-    if atm.get_condition() == "ATM_WAIT":
+def refresh(atm = None, card_for_atm = None, card_draw = None, canvas = None, btn_working = None, text = None, window = None):
+    condition = atm.get_condition()
+    
+    if condition == "ATM_WAIT":
         canvas.delete(card_draw)
         card_draw = canvas.create_rectangle(855, 131, 1045, 134, fill="green")
         btn_working.destroy()
-        atm.set_card(card_for_atm)
-        refresh(card_for_atm, atm, card_draw, canvas, btn_working, text, window)
-    elif atm.get_condition() == "ATM_CHECK_PAN":
-        validate = window.register(validate_input)
-        pan_label = tk.Label(window, text = "введите пинкод", font=("Arial", 10))
-        pan = tk.Entry(window, validate="key", validatecommand = (validate, "%S"))
-        
-        pan.place(x = 320, y = 220)
-        pan_label.place(x = 335, y = 190)
-        pan.insert(0, "****")
-        pan.bind("<KeyPress>", key_press(pan))
-
-def key_press(event, pan):
-    text = pan.get()
-    if event.keysym in ('BackSpace', 'Delete'):
-        if text == "****":
-            return 'break'
-
+        print(condition)
+    elif condition == "ATM_CHECK_PAN":
+        pass
 atm = classes.ATM(1000000)
 
 text = ""
 
 start_programm()
-
-
-
-
-
-
-
-
-
