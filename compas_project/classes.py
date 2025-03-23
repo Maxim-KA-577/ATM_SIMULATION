@@ -5,18 +5,21 @@ class ATM():
         self.card = card
         
     def set_card(self, card):
-        if card != None:
-            self.condition = "ATM_CHECK_PAN"
+        self.condition = "ATM_CHECK_PAN"
         return self.condition
         
-    def check_pan(self, attempt, data):
+    def check_pan(self, attempt, data, text):
         if attempt != 3:
-            if card.card_pan == data:
+            if text == data:
                 self.condition = "ATM_GOOD_ATTEMPT"
             else:
                 self.condition = "ATM_BAD_ATTEMPT"
-        else:
-            self.condition = "ATM_BLOCK_CARD"
+        if attempt == 3:
+            if text == data:
+                self.condition = "ATM_GOOD_ATTEMPT"
+
+            else:
+                self.condition = "ATM_BLOCK_CARD"
         return self.condition
 
     def add_money_to_ATM(self, money):
