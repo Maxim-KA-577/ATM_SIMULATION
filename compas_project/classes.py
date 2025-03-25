@@ -22,46 +22,16 @@ class ATM():
                 self.condition = "ATM_BLOCK_CARD"
         return self.condition
 
-    def add_money_to_ATM(self, money):
-        if money % 100 != 0:
-            self.condition = "ATM_BAD_SUM"
-        else:
+    def get_money(self, money):
+        if money % 100 == 0 and money <= self.money:
             self.condition = "ATM_GOOD_SUM"
-            self.money += money
-        return self.condition
 
-    def remove_money_from_ATM(self, money):
-        if money % 100 != 0:
-            self.condition = "ATM_NO_SET"
-        else:
-            if money >= 1000000:
-                self.condition = "ATM_NO_SUM"
-            else:
-                self.condition = "ATW_GOOD_SET"
-                self.money -= money
-        return self.condition
+    def set_money(self, money):
+        if money % 100 == 0:
+            self.condition = "ATM_GOOD_SET"
 
-    def remvoe_money_to_card(self, money):  
-        self.condition = remove_money_from_ATM(money)                       
-        if self.condition == "ATW_GOOD_SET":
-            self.card.money -= money
-            self.condition = "ATM_CARD_GOOD"
-        elif self.condition == "ATM_NO_SUM" or self.condition == "ATM_NO_SET":
-            self.condition = "ATM_BAD_SET"
-        return self.condition
-
-    def remove_money_from_card(self, money):
-        self.condition == add_money_to_ATM(money)
-        if self.condition == "ATM_GOOD_SUM":
-            self.money += money
-            self.card.money += money
-            self.condition = "ATM_GOOD_GET"
-        elif self.condition == "ATM_BAD_SUM":
-            self.condition = "ATM_NO_GET"
-        return self.condition
-
-    def check_balans(self, card_money):
-        self.condition = "ATM_CHECK_BAlANS"
+    def check_balans(self):
+        self.condition = "ATM_CHECK_BAlANS" 
 
     def get_condition(self):
         return self.condition
